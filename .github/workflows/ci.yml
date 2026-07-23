@@ -22,20 +22,20 @@ jobs:
       XLA_FLAGS: --xla_force_host_platform_device_count=2
       LIBTORCH_DIR: ./cache/libtorch
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         id: mix-cache # id to use in retrieve action
         with:
           path: deps
           key: v1-${{ matrix.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
       - name: Retrieve libtorch cache
         if: ${{ matrix.working_directory == 'torchx' }}
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         id: libtorch-cache
         with:
           path: torchx/${{ env.LIBTORCH_DIR }}
@@ -69,21 +69,21 @@ jobs:
       - name: Configure Git
         run: git config --global core.autocrlf input
         working-directory: .
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ilammy/msvc-dev-cmd@v1
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{ matrix.otp }}
           elixir-version: ${{ matrix.elixir }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         id: mix-cache # id to use in retrieve action
         with:
           path: deps
           key: v1-${{ matrix.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
       - name: Retrieve libtorch cache
         if: ${{ matrix.working_directory == 'torchx' }}
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         id: libtorch-cache-win
         with:
           path: torchx/${{ env.LIBTORCH_DIR }}
